@@ -40,9 +40,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'bootstrap', '~> 4.6.0'
 
 
-group :production do
-  gem 'pg'
-end
+
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
