@@ -1,0 +1,36 @@
+<% obj.each do |article| %>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <div class="well well-lg">
+        <div class="article-title">
+          <%= link_to article.title, article_path(article) %>
+        </div>
+        <div class="article-body">
+          <%= truncate(article.description, length: 100) %>
+          <div class="article-meta-details">
+            <small>
+              Created by: <%= article.user.username if article.user %>,
+              Created at: <%= time_ago_in_words(article.created_at) %> ago,
+              Last Update: <%= time_ago_in_words(article.updated_at) %> ago
+            </small>
+          </div>
+        </div>
+        <% if article.categories.any? %>
+          <p>Categories: <%= render article.categories %></p>
+        <% end %>
+        <div class="article-actions">
+          <% if logged_in? && (current_user == article.user || current_user.admin?) %>
+            <%= link_to "Edit this article", edit_article_path(article), class: "btn btn-xs btn-primary" %>
+            
+            <!-- Remplacer par le formulaire de suppression sans JavaScript -->
+            <form action="<%= article_path(article) %>" method="post" style="display: inline;">
+              <input type="hidden" name="_method" value="delete" />
+              <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+              <input type="submit" value="Delete this article" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure you want to delete the article?');" />
+            </form>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
